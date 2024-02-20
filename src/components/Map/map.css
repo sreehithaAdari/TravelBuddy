@@ -1,0 +1,12 @@
+/* Map.css */
+.map-container {
+  height: 90vh; /* Adjust the height as needed */
+  width: 100%; /* Adjust the width as needed */
+  border-radius: 2rem;
+  padding-left: 10px;
+}
+
+.leaflet-container {
+  height: 100%; /* Ensure the map container takes the full height of its parent */
+  width: 100%;
+}
