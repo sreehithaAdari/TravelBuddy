@@ -1,15 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   styled,
   alpha,
   AppBar,
   Box,
   Toolbar,
-  IconButton,
   Typography,
   InputBase,
 } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 
 const Search = styled("div")(({ theme }) => ({
@@ -53,20 +51,17 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-const Header = () => {
+const Header = ({ onPlaceChanged }) => {
+  const [searchValue, setSearchValue] = useState("");
+
+  const handleSearch = () => {
+    onPlaceChanged(searchValue);
+  };
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon />
-          </IconButton>
           <Typography
             variant="h6"
             noWrap
@@ -82,6 +77,10 @@ const Header = () => {
             <StyledInputBase
               placeholder="Search"
               inputProps={{ "aria-label": "search" }}
+              value={searchValue}
+              onChange={(e) => setSearchValue(e.target.value)}
+              onBlur={handleSearch}
+              onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
             />
           </Search>
         </Toolbar>
