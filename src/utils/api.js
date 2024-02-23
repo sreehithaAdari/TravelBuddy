@@ -33,3 +33,35 @@ export const getPlaceDetails = async (place) => {
   }
 };
 
+export const getNearbyTouristAttractions = async (coordinates) => {
+  try {
+    const { lat, lon } = coordinates;
+    const response = await fetch(
+      `https://us1.locationiq.com/v1/nearby.php?key=${LOCATIONIQ_API_KEY}&lat=${lat}&lon=${lon}&tag=tourism&radius=1000&format=json`
+    );
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    if (data.length > 0) {
+      // Assuming the response structure has a list of nearby places with 'name' and 'coordinates' properties
+      const attractions = data.map((attraction) => ({
+        name: attraction.display_name,
+        coordinates: {
+          lat: parseFloat(attraction.lat),
+          lon: parseFloat(attraction.lon),
+        },
+      }));
+
+      return attractions;
+    } else {
+      return [];
+    }
+  } catch (error) {
+    console.error("Error fetching nearby tourist attractions:", error);
+    throw error;
+  }
+};
